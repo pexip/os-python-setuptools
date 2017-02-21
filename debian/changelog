@@ -1,3 +1,9 @@
+python-setuptools (5.5.1-1pexip1) pexip; urgency=low
+
+  * Prepare Pexip packaging
+
+ -- John-Mark Bell <jmb@pexip.com>  Tue, 21 Feb 2017 19:43:57 +0000
+
 python-setuptools (5.5.1-1) unstable; urgency=medium
 
   * New upstream version. Closes: #754089.
