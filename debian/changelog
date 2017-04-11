@@ -1,3 +1,224 @@
+python-setuptools (33.1.1-1~bpo8+1) jessie-backports; urgency=medium
+
+  * Rebuild for jessie-backports.
+
+ -- Andreas Tille <tille@debian.org>  Tue, 11 Apr 2017 17:00:47 +0200
+
+python-setuptools (33.1.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Generate sorted requires.txt files. Closes: #804249.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 19 Jan 2017 18:02:25 +0100
+
+python-setuptools (32.3.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 09 Jan 2017 00:07:07 +0100
+
+python-setuptools (32.0.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Generate reproducible install_files.txt (Chris Lamb). Closes: #848136.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 15 Dec 2016 12:48:40 +0100
+
+python-setuptools (28.7.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 02 Nov 2016 16:13:06 +0200
+
+python-setuptools (28.0.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 28 Sep 2016 02:18:01 +0200
+
+python-setuptools (27.1.2-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 10 Sep 2016 03:38:14 +0200
+
+python-setuptools (26.1.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 30 Aug 2016 08:17:49 +0200
+
+python-setuptools (26.1.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 29 Aug 2016 20:48:21 +0200
+
+python-setuptools (25.2.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 15 Aug 2016 23:17:15 +0200
+
+python-setuptools (20.10.1-1.1~bpo8+1) jessie-backports; urgency=medium
+
+  * Rebuild for jessie-backports.
+
+ -- Ondřej Nový <onovy@debian.org>  Sun, 26 Jun 2016 05:46:06 +0200
+
+python-setuptools (20.10.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Sort libs in native_libs. (Closes: #825857)
+
+ -- Anton Gladky <gladk@debian.org>  Thu, 09 Jun 2016 22:35:35 +0200
+
+python-setuptools (20.10.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Re-add the changes file, missing upstream.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 14 Apr 2016 21:52:22 +0200
+
+python-setuptools (20.3.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 18 Mar 2016 17:08:58 +0100
+
+python-setuptools (20.1.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Stop building the -whl package.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 15 Feb 2016 19:11:35 +0100
+
+python-setuptools (20.0-2) unstable; urgency=medium
+
+  * Use the pkg_resources from the source when building the docs.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 11 Feb 2016 13:28:36 +0100
+
+python-setuptools (20.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 10 Feb 2016 11:08:25 +0100
+
+python-setuptools (18.8-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 13 Dec 2015 14:51:22 +0100
+
+python-setuptools (18.7.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 11 Dec 2015 17:32:09 +0100
+
+python-setuptools (18.7-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 01 Dec 2015 13:14:59 +0100
+
+python-setuptools (18.4-2) unstable; urgency=medium
+
+  * Don't install the SOURCES.txt egg-info file when setup.py is called
+    with --install-layout=deb. Closes: #802792.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 24 Oct 2015 16:07:48 +0200
+
+python-setuptools (18.4-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Provide a unified entry_points.txt file.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 11 Oct 2015 13:06:42 +0200
+
+python-setuptools (18.3.1-2) unstable; urgency=medium
+
+  * Don't blow away egg-info on clean (Stefano Rivera).
+  * Remove the build dependency on python-setuptools.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 11 Sep 2015 20:33:13 +0200
+
+python-setuptools (18.3.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Build-depend on python-setuptools. Without this dependency, the scripts
+    are not installed. Not yet known, why.  Closes: #795455.
+  * Install the upstream changes file, not the empty history file.
+    Closes: #798078.
+  * Suggests the python-setuptools-doc package. Closes: #797731.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 10 Sep 2015 18:28:54 +0200
+
+python-setuptools (18.2-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 04 Sep 2015 22:29:34 +0200
+
+python-setuptools (18.0.1-2) unstable; urgency=medium
+
+  [ Stefano Rivera ]
+  * Port to pybuild:
+    - Build-Depend on dh-python.
+  * Bump debhelper compat to 9 (and Build-Depends to >= 9)
+  * Replace unnecessary dependencies on python*-all-dev packages with -all.
+  * Drop deprecated ${python:Versions} and ${python:Provides} substitutions.
+  * Drop constraints on packages that pre-date oldoldstable.
+  * Add Suggests: python-setuptools on python-pkg-resources, matching
+    python3-pkg-resources.
+  * Drop ancient and irrelevant README.Debian.
+  * Use dh_sphinxdoc's generated dependencies.
+  * Replace accidental /usr/share/doc/html symlink with the intended
+    /usr/share/doc/python3-setuptools/html.
+  * Drop unnecessary easy_install-X.Y binaries.
+    Users can use pythonX.Y -m easy_install, instead.
+  * Drop .pth file. No longer necessary, we don't install eggs.
+  * Add binary packages for pypy. Requires Build-Depends: pypy. Closes: #735855.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 03 Aug 2015 14:21:28 +0200
+
+python-setuptools (18.0.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 21 Jul 2015 21:45:52 +0200
+
+python-setuptools (17.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Fix another issue with the multiarch patch (which can be dropped once
+    3.5 is the only version in the distro).
+
+ -- Matthias Klose <doko@debian.org>  Fri, 29 May 2015 15:13:19 +0200
+
+python-setuptools (16.0-2) unstable; urgency=medium
+
+  * Fix syntax error in multiarch patch (Brian Warner). Closes: #786446.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 21 May 2015 23:43:05 +0200
+
+python-setuptools (16.0-1) unstable; urgency=medium
+
+  * New upstream version. Closes: #784364.
+  * Build for python 3.5.
+  * Fix lintian warnings.
+  * Build without the rst.linker plugin, not yet packaged.
+  * python3-setuptools: Conflict with python3.5 (<< 3.5.0~a4-5).
+
+ -- Matthias Klose <doko@debian.org>  Tue, 19 May 2015 11:56:21 +0200
+
+python-setuptools (12.2-1) experimental; urgency=medium
+
+  * New upstream version. Closes: #779036, #773969.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 26 Feb 2015 15:04:59 +0100
+
 python-setuptools (5.5.1-1) unstable; urgency=medium
 
   * New upstream version. Closes: #754089.
