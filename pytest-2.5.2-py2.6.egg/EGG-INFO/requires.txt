@@ -1,3 +1,0 @@
-py>=1.4.20
-argparse
-colorama
