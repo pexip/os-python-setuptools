@@ -10,7 +10,7 @@ Build-Depends-Indep: python-all-dev (>= 2.6.6-2~), python3-all-dev (>= 3.1.2-8~)
 Build-Depends: debhelper (>= 5.0.37.1)
 Standards-Version: 3.9.5
 Homepage: https://pypi.python.org/pypi/setuptools
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie-backports
 
 Package: python-pkg-resources
 Architecture: all
