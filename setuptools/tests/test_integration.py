@@ -7,11 +7,28 @@ import glob
 import os
 import sys
 
+from setuptools.extern.six.moves import urllib
 import pytest
 
 from setuptools.command.easy_install import easy_install
 from setuptools.command import easy_install as easy_install_pkg
 from setuptools.dist import Distribution
+
+
+def setup_module(module):
+    packages = 'stevedore', 'virtualenvwrapper', 'pbr', 'novaclient'
+    for pkg in packages:
+        try:
+            __import__(pkg)
+            tmpl = "Integration tests cannot run when {pkg} is installed"
+            pytest.skip(tmpl.format(**locals()))
+        except ImportError:
+            pass
+
+    try:
+        urllib.request.urlopen('https://pypi.python.org/pypi')
+    except Exception as exc:
+        pytest.skip(str(exc))
 
 
 @pytest.fixture
@@ -27,11 +44,12 @@ def install_context(request, tmpdir, monkeypatch):
     def fin():
         # undo the monkeypatch, particularly needed under
         # windows because of kept handle on cwd
-        monkeypatch.undo() 
+        monkeypatch.undo()
         new_cwd.remove()
         user_base.remove()
         user_site.remove()
         install_dir.remove()
+
     request.addfinalizer(fin)
 
     # Change the environment and site settings to control where the
@@ -71,7 +89,6 @@ def test_virtualenvwrapper(install_context):
                  'virtualenvwrapper', 'hook_loader.py')
 
 
-@pytest.mark.xfail
 def test_pbr(install_context):
     _install_one('pbr', install_context,
                  'pbr', 'core.py')

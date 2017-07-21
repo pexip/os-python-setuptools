@@ -7,10 +7,13 @@ import tempfile
 import subprocess
 from distutils.command.install import INSTALL_SCHEMES
 from string import Template
-from setuptools.compat import urlopen
+
+from six.moves import urllib
+
 
 def _system_call(*args):
     assert subprocess.call(args) == 0
+
 
 def tempdir(func):
     def _tempdir(*args, **kwargs):
@@ -22,7 +25,9 @@ def tempdir(func):
         finally:
             os.chdir(old_dir)
             shutil.rmtree(test_dir)
+
     return _tempdir
+
 
 SIMPLE_BUILDOUT = """\
 [buildout]
@@ -42,10 +47,8 @@ PYVER = sys.version.split()[0][:3]
 _VARS = {'base': '.',
          'py_version_short': PYVER}
 
-if sys.platform == 'win32':
-    PURELIB = INSTALL_SCHEMES['nt']['purelib']
-else:
-    PURELIB = INSTALL_SCHEMES['unix_prefix']['purelib']
+scheme = 'nt' if sys.platform == 'win32' else 'unix_prefix'
+PURELIB = INSTALL_SCHEMES[scheme]['purelib']
 
 
 @tempdir
@@ -63,6 +66,7 @@ def test_virtualenv():
         res = f.read()
     assert 'setuptools' in res
 
+
 @tempdir
 def test_full():
     """virtualenv + pip + buildout"""
@@ -76,7 +80,7 @@ def test_full():
         f.write(SIMPLE_BUILDOUT)
 
     with open('bootstrap.py', 'w') as f:
-        f.write(urlopen(BOOTSTRAP).read())
+        f.write(urllib.request.urlopen(BOOTSTRAP).read())
 
     _system_call('bin/python', 'bootstrap.py')
     _system_call('bin/buildout', '-q')
@@ -87,6 +91,7 @@ def test_full():
     del eggs[1]
     assert eggs == ['extensions-0.3-py2.6.egg',
         'zc.recipe.egg-1.2.2-py2.6.egg']
+
 
 if __name__ == '__main__':
     test_virtualenv()

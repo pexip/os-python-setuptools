@@ -59,14 +59,6 @@ Feature Highlights:
 * Create extensible applications and frameworks that automatically discover
   extensions, using simple "entry points" declared in a project's setup script.
 
-In addition to the PyPI downloads, the development version of ``setuptools``
-is available from the `Python SVN sandbox`_, and in-development versions of the
-`0.6 branch`_ are available as well.
-
-.. _0.6 branch: http://svn.python.org/projects/sandbox/branches/setuptools-0.6/#egg=setuptools-dev06
-
-.. _Python SVN sandbox: http://svn.python.org/projects/sandbox/trunk/setuptools/#egg=setuptools-dev
-
 .. contents:: **Table of Contents**
 
 .. _ez_setup.py: `bootstrap module`_
@@ -106,16 +98,22 @@ the distutils.  Here's a minimal setup script using setuptools::
 
     from setuptools import setup, find_packages
     setup(
-        name = "HelloWorld",
-        version = "0.1",
-        packages = find_packages(),
+        name="HelloWorld",
+        version="0.1",
+        packages=find_packages(),
     )
 
 As you can see, it doesn't take much to use setuptools in a project.
-Just by doing the above, this project will be able to produce eggs, upload to
+Run that script in your project folder, alongside the Python packages
+you have developed.
+
+Invoke that script to produce eggs, upload to
 PyPI, and automatically include all packages in the directory where the
 setup.py lives.  See the `Command Reference`_ section below to see what
-commands you can give to this setup script.
+commands you can give to this setup script. For example,
+to produce a source distribution, simply invoke::
+
+    python setup.py sdist
 
 Of course, before you release your project to PyPI, you'll want to add a bit
 more information to your setup script to help people find or learn about your
@@ -124,16 +122,16 @@ dependencies, and perhaps some data files and scripts::
 
     from setuptools import setup, find_packages
     setup(
-        name = "HelloWorld",
-        version = "0.1",
-        packages = find_packages(),
-        scripts = ['say_hello.py'],
+        name="HelloWorld",
+        version="0.1",
+        packages=find_packages(),
+        scripts=['say_hello.py'],
 
         # Project uses reStructuredText, so ensure that the docutils get
         # installed or upgraded on the target machine
-        install_requires = ['docutils>=0.3'],
+        install_requires=['docutils>=0.3'],
 
-        package_data = {
+        package_data={
             # If any package contains *.txt or *.rst files, include them:
             '': ['*.txt', '*.rst'],
             # And include any *.msg files found in the 'hello' package, too:
@@ -141,12 +139,12 @@ dependencies, and perhaps some data files and scripts::
         },
 
         # metadata for upload to PyPI
-        author = "Me",
-        author_email = "me@example.com",
-        description = "This is an Example Package",
-        license = "PSF",
-        keywords = "hello world example examples",
-        url = "http://example.com/HelloWorld/",   # project home page, if any
+        author="Me",
+        author_email="me@example.com",
+        description="This is an Example Package",
+        license="PSF",
+        keywords="hello world example examples",
+        url="http://example.com/HelloWorld/",   # project home page, if any
 
         # could also include long_description, download_url, classifiers, etc.
     )
@@ -252,10 +250,9 @@ unless you need the associated ``setuptools`` feature.
 
 ``include_package_data``
     If set to ``True``, this tells ``setuptools`` to automatically include any
-    data files it finds inside your package directories, that are either under
-    CVS or Subversion control, or which are specified by your ``MANIFEST.in``
-    file.  For more information, see the section below on `Including Data
-    Files`_.
+    data files it finds inside your package directories that are specified by
+    your ``MANIFEST.in`` file.  For more information, see the section below on
+    `Including Data Files`_.
 
 ``exclude_package_data``
     A dictionary mapping package names to lists of glob patterns that should
@@ -297,6 +294,10 @@ unless you need the associated ``setuptools`` feature.
     installed to support those features.  See the section below on `Declaring
     Dependencies`_ for details and examples of the format of this argument.
 
+``python_requires``
+    A string corresponding to a version specifier (as defined in PEP 440) for
+    the Python version, used to specify the Requires-Python defined in PEP 345.
+
 ``setup_requires``
     A string or list of strings specifying what other distributions need to
     be present in order for the *setup script* to run.  ``setuptools`` will
@@ -308,7 +309,7 @@ unless you need the associated ``setuptools`` feature.
 
     (Note: projects listed in ``setup_requires`` will NOT be automatically
     installed on the system where the setup script is being run.  They are
-    simply downloaded to the setup directory if they're not locally available
+    simply downloaded to the ./.eggs directory if they're not locally available
     already.  If you want them to be installed, as well as being available
     when the setup script is run, you should add them to ``install_requires``
     **and** ``setup_requires``.)
@@ -422,7 +423,7 @@ the same
 directory as the setup script.  Some projects use a ``src`` or ``lib``
 directory as the root of their source tree, and those projects would of course
 use ``"src"`` or ``"lib"`` as the first argument to ``find_packages()``.  (And
-such projects also need something like ``package_dir = {'':'src'}`` in their
+such projects also need something like ``package_dir={'':'src'}`` in their
 ``setup()`` arguments, but that's just a normal distutils thing.)
 
 Anyway, ``find_packages()`` walks the target directory, filtering by inclusion
@@ -473,7 +474,7 @@ script called ``baz``, you might do something like this::
 
     setup(
         # other arguments here...
-        entry_points = {
+        entry_points={
             'console_scripts': [
                 'foo = my_package.some_module:main_func',
                 'bar = other_module:some_func',
@@ -513,7 +514,7 @@ as the following::
 
     setup(
         # other arguments here...
-        entry_points = {
+        entry_points={
             'setuptools.installation': [
                 'eggsecutable = my_package.some_module:main_func',
             ]
@@ -665,7 +666,7 @@ installed::
 
     setup(
         ...
-        dependency_links = [
+        dependency_links=[
             "http://peak.telecommunity.com/snapshots/"
         ],
     )
@@ -690,7 +691,7 @@ For example, let's say that Project A offers optional PDF and reST support::
     setup(
         name="Project-A",
         ...
-        extras_require = {
+        extras_require={
             'PDF':  ["ReportLab>=1.2", "RXP"],
             'reST': ["docutils>=0.3"],
         }
@@ -712,7 +713,7 @@ declare it like this, so that the "PDF" requirements are only resolved if the
     setup(
         name="Project-A",
         ...
-        entry_points = {
+        entry_points={
             'console_scripts': [
                 'rst2pdf = project_a.tools.pdfgen [PDF]',
                 'rst2html = project_a.tools.htmlgen',
@@ -727,7 +728,7 @@ might declare the dependency like this::
 
     setup(
         name="Project-B",
-        install_requires = ["Project-A[PDF]"],
+        install_requires=["Project-A[PDF]"],
         ...
     )
 
@@ -750,7 +751,7 @@ setup to this::
     setup(
         name="Project-A",
         ...
-        extras_require = {
+        extras_require={
             'PDF':  [],
             'reST': ["docutils>=0.3"],
         }
@@ -759,6 +760,40 @@ setup to this::
 so that Package B doesn't have to remove the ``[PDF]`` from its requirement
 specifier.
 
+
+.. _Platform Specific Dependencies:
+
+
+Declaring platform specific dependencies
+----------------------------------------
+
+Sometimes a project might require a dependency to run on a specific platform.
+This could to a package that back ports a module so that it can be used in
+older python versions.  Or it could be a package that is required to run on a
+specific operating system.  This will allow a project to work on multiple
+different platforms without installing dependencies that are not required for
+a platform that is installing the project.
+
+For example, here is a project that uses the ``enum`` module and ``pywin32``::
+
+    setup(
+        name="Project",
+        ...
+        install_requires=[
+            'enum34;python_version<"3.4"',
+            'pywin32 >= 1.0;platform_system=="Windows"'
+        ]
+    )
+
+Since the ``enum`` module was added in Python 3.4, it should only be installed
+if the python version is earlier.  Since ``pywin32`` will only be used on
+windows, it should only be installed when the operating system is Windows.
+Specifying version requirements for the dependencies is supported as normal.
+
+The environmental markers that may be used for testing platform types are
+detailed in `PEP 508`_.
+
+.. _PEP 508: https://www.python.org/dev/peps/pep-0508/
 
 Including Data Files
 ====================
@@ -775,26 +810,24 @@ e.g.::
     from setuptools import setup, find_packages
     setup(
         ...
-        include_package_data = True
+        include_package_data=True
     )
 
 This tells setuptools to install any data files it finds in your packages.
-The data files must be under CVS or Subversion control, or else they must be
-specified via the distutils' ``MANIFEST.in`` file.  (They can also be tracked
-by another revision control system, using an appropriate plugin.  See the
-section below on `Adding Support for Other Revision Control Systems`_ for
-information on how to write such plugins.)
+The data files must be specified via the distutils' ``MANIFEST.in`` file.
+(They can also be tracked by a revision control system, using an appropriate
+plugin.  See the section below on `Adding Support for Revision Control
+Systems`_ for information on how to write such plugins.)
 
-If the data files are not under version control, or are not in a supported
-version control system, or if you want finer-grained control over what files
-are included (for example, if you have documentation files in your package
-directories and want to exclude them from installation), then you can also use
-the ``package_data`` keyword, e.g.::
+If you want finer-grained control over what files are included (for example,
+if you have documentation files in your package directories and want to exclude
+them from installation), then you can also use the ``package_data`` keyword,
+e.g.::
 
     from setuptools import setup, find_packages
     setup(
         ...
-        package_data = {
+        package_data={
             # If any package contains *.txt or *.rst files, include them:
             '': ['*.txt', '*.rst'],
             # And include any *.msg files found in the 'hello' package, too:
@@ -821,10 +854,10 @@ The setuptools setup file might look like this::
     from setuptools import setup, find_packages
     setup(
         ...
-        packages = find_packages('src'),  # include all packages under src
-        package_dir = {'':'src'},   # tell distutils packages are under src
+        packages=find_packages('src'),  # include all packages under src
+        package_dir={'':'src'},   # tell distutils packages are under src
 
-        package_data = {
+        package_data={
             # If any package contains *.txt files, include them:
             '': ['*.txt'],
             # And include any *.dat files found in the 'data' subdirectory
@@ -847,8 +880,7 @@ converts slashes to appropriate platform-specific separators at build time.
 Python 2.4; there is `some documentation for the feature`__ available on the
 python.org website.  If using the setuptools-specific ``include_package_data``
 argument, files specified by ``package_data`` will *not* be automatically
-added to the manifest unless they are tracked by a supported version control
-system, or are listed in the MANIFEST.in file.)
+added to the manifest unless they are listed in the MANIFEST.in file.)
 
 __ http://docs.python.org/dist/node11.html
 
@@ -862,13 +894,13 @@ to do things like this::
     from setuptools import setup, find_packages
     setup(
         ...
-        packages = find_packages('src'),  # include all packages under src
-        package_dir = {'':'src'},   # tell distutils packages are under src
+        packages=find_packages('src'),  # include all packages under src
+        package_dir={'':'src'},   # tell distutils packages are under src
 
-        include_package_data = True,    # include everything in source control
+        include_package_data=True,    # include everything in source control
 
         # ...but exclude README.txt from all packages
-        exclude_package_data = { '': ['README.txt'] },
+        exclude_package_data={'': ['README.txt']},
     )
 
 The ``exclude_package_data`` option is a dictionary mapping package names to
@@ -881,8 +913,7 @@ included as a result of using ``include_package_data``.
 In summary, the three options allow you to:
 
 ``include_package_data``
-    Accept all data files and directories matched by ``MANIFEST.in`` or found
-    in source control.
+    Accept all data files and directories matched by ``MANIFEST.in``.
 
 ``package_data``
     Specify additional patterns to match files and directories that may or may
@@ -916,7 +947,7 @@ use its resource management API.  See also `Accessing Package Resources`_ for
 a quick example of converting code that uses ``__file__`` to use
 ``pkg_resources`` instead.
 
-.. _Resource Management API: http://peak.telecommunity.com/DevCenter/PythonEggs#resource-management
+.. _Resource Management API: http://peak.telecommunity.com/DevCenter/PkgResources#resourcemanager-api
 .. _Accessing Package Resources: http://peak.telecommunity.com/DevCenter/PythonEggs#accessing-package-resources
 
 
@@ -1030,21 +1061,21 @@ for our hypothetical blogging tool::
 
     setup(
         # ...
-        entry_points = {'blogtool.parsers': '.rst = some_module:SomeClass'}
+        entry_points={'blogtool.parsers': '.rst = some_module:SomeClass'}
     )
 
     setup(
         # ...
-        entry_points = {'blogtool.parsers': ['.rst = some_module:a_func']}
+        entry_points={'blogtool.parsers': ['.rst = some_module:a_func']}
     )
 
     setup(
         # ...
-        entry_points = """
+        entry_points="""
             [blogtool.parsers]
             .rst = some.nested.module:SomeClass.some_classmethod [reST]
         """,
-        extras_require = dict(reST = "Docutils>=0.3.5")
+        extras_require=dict(reST="Docutils>=0.3.5")
     )
 
 The ``entry_points`` argument to ``setup()`` accepts either a string with
@@ -1225,15 +1256,14 @@ Your Project's Dependencies
     target audience isn't able to compile packages (e.g. most Windows users)
     and your package or some of its dependencies include C code.
 
-Subversion or CVS Users and Co-Developers
+Revision Control System Users and Co-Developers
     Users and co-developers who are tracking your in-development code using
-    CVS, Subversion, or some other revision control system should probably read
-    this manual's sections regarding such development.  Alternately, you may
-    wish to create a quick-reference guide containing the tips from this manual
-    that apply to your particular situation.  For example, if you recommend
-    that people use ``setup.py develop`` when tracking your in-development
-    code, you should let them know that this needs to be run after every update
-    or commit.
+    a revision control system should probably read this manual's sections
+    regarding such development.  Alternately, you may wish to create a
+    quick-reference guide containing the tips from this manual that apply to
+    your particular situation.  For example, if you recommend that people use
+    ``setup.py develop`` when tracking your in-development code, you should let
+    them know that this needs to be run after every update or commit.
 
     Similarly, if you remove modules or data files from your project, you
     should remind them to run ``setup.py clean --all`` and delete any obsolete
@@ -1270,7 +1300,8 @@ Creating System Packages
 Setting the ``zip_safe`` flag
 -----------------------------
 
-For maximum performance, Python packages are best installed as zip files.
+For some use cases (such as bundling as part of a larger application), Python
+packages may be run directly from a zip file.
 Not all packages, however, are capable of running in compressed form, because
 they may expect to be able to access either source code or data files as
 normal operating system files.  So, ``setuptools`` can install your project
@@ -1338,7 +1369,7 @@ participates in.  For example, the ZopeInterface project might do this::
 
     setup(
         # ...
-        namespace_packages = ['zope']
+        namespace_packages=['zope']
     )
 
 because it contains a ``zope.interface`` package that lives in the ``zope``
@@ -1417,10 +1448,6 @@ egg distributions by adding one or more of the following to the project's
   manually-specified post-release tag, such as a build or revision number
   (``--tag-build=STRING, -bSTRING``)
 
-* A "last-modified revision number" string generated automatically from
-  Subversion's metadata (assuming your project is being built from a Subversion
-  "working copy")  (``--tag-svn-revision, -r``)
-
 * An 8-character representation of the build date (``--tag-date, -d``), as
   a postrelease tag
 
@@ -1462,18 +1489,11 @@ Generating Source Distributions
 -------------------------------
 
 ``setuptools`` enhances the distutils' default algorithm for source file
-selection, so that all files managed by CVS or Subversion in your project tree
-are included in any source distribution you build.  This is a big improvement
-over having to manually write a ``MANIFEST.in`` file and try to keep it in
-sync with your project.  So, if you are using CVS or Subversion, and your
-source distributions only need to include files that you're tracking in
-revision control, don't create a a ``MANIFEST.in`` file for your project.
-(And, if you already have one, you might consider deleting it the next time
-you would otherwise have to change it.)
-
-(NOTE: other revision control systems besides CVS and Subversion can be
-supported using plugins; see the section below on `Adding Support for Other
-Revision Control Systems`_ for information on how to write such plugins.)
+selection with pluggable endpoints for looking up files to include. If you are
+using a revision control system, and your source distributions only need to
+include files that you're tracking in revision control, use a corresponding
+plugin instead of writing a ``MANIFEST.in`` file. See the section below on
+`Adding Support for Revision Control Systems`_ for information on plugins.
 
 If you need to include automatically generated files, or files that are kept in
 an unsupported revision control system, you'll need to create a ``MANIFEST.in``
@@ -1494,12 +1514,6 @@ distribution is so much simpler, its ``sdist`` command omits nearly all of
 the options that the distutils' more complex ``sdist`` process requires.  For
 all practical purposes, you'll probably use only the ``--formats`` option, if
 you use any option at all.
-
-(By the way, if you're using some other revision control system, you might
-consider creating and publishing a `revision control plugin for setuptools`_.)
-
-
-.. _revision control plugin for setuptools: `Adding Support for Other Revision Control Systems`_
 
 
 Making your package available for EasyInstall
@@ -1565,68 +1579,6 @@ this::
 in order to check out the in-development version of ``projectname``.
 
 
-Managing "Continuous Releases" Using Subversion
------------------------------------------------
-
-If you expect your users to track in-development versions of your project via
-Subversion, there are a few additional steps you should take to ensure that
-things work smoothly with EasyInstall.  First, you should add the following
-to your project's ``setup.cfg`` file:
-
-.. code-block:: ini
-
-    [egg_info]
-    tag_build = .dev
-    tag_svn_revision = 1
-
-This will tell ``setuptools`` to generate package version numbers like
-``1.0a1.dev-r1263``, which will be considered to be an *older* release than
-``1.0a1``.  Thus, when you actually release ``1.0a1``, the entire egg
-infrastructure (including ``setuptools``, ``pkg_resources`` and EasyInstall)
-will know that ``1.0a1`` supersedes any interim snapshots from Subversion, and
-handle upgrades accordingly.
-
-(Note: the project version number you specify in ``setup.py`` should always be
-the *next* version of your software, not the last released version.
-Alternately, you can leave out the ``tag_build=.dev``, and always use the
-*last* release as a version number, so that your post-1.0 builds are labelled
-``1.0-r1263``, indicating a post-1.0 patchlevel.  Most projects so far,
-however, seem to prefer to think of their project as being a future version
-still under development, rather than a past version being patched.  It is of
-course possible for a single project to have both situations, using
-post-release numbering on release branches, and pre-release numbering on the
-trunk.  But you don't have to make things this complex if you don't want to.)
-
-Commonly, projects releasing code from Subversion will include a PyPI link to
-their checkout URL (as described in the previous section) with an
-``#egg=projectname-dev`` suffix.  This allows users to request EasyInstall
-to download ``projectname==dev`` in order to get the latest in-development
-code.  Note that if your project depends on such in-progress code, you may wish
-to specify your ``install_requires`` (or other requirements) to include
-``==dev``, e.g.:
-
-.. code-block:: python
-
-    install_requires = ["OtherProject>=0.2a1.dev-r143,==dev"]
-
-The above example says, "I really want at least this particular development
-revision number, but feel free to follow and use an ``#egg=OtherProject-dev``
-link if you find one".  This avoids the need to have actual source or binary
-distribution snapshots of in-development code available, just to be able to
-depend on the latest and greatest a project has to offer.
-
-A final note for Subversion development: if you are using SVN revision tags
-as described in this section, it's a good idea to run ``setup.py develop``
-after each Subversion checkin or update, because your project's version number
-will be changing, and your script wrappers need to be updated accordingly.
-
-Also, if the project's requirements have changed, the ``develop`` command will
-take care of fetching the updated dependencies, building changed extensions,
-etc.  Be sure to also remind any of your users who check out your project
-from Subversion that they need to run ``setup.py develop`` after every update
-in order to keep their checkout completely in sync.
-
-
 Making "Official" (Non-Snapshot) Releases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1640,18 +1592,18 @@ tagging the release, so the trunk will still produce development snapshots.
 Alternately, if you are not branching for releases, you can override the
 default version options on the command line, using something like::
 
-    python setup.py egg_info -RDb "" sdist bdist_egg register upload
+    python setup.py egg_info -Db "" sdist bdist_egg register upload
 
-The first part of this command (``egg_info -RDb ""``) will override the
+The first part of this command (``egg_info -Db ""``) will override the
 configured tag information, before creating source and binary eggs, registering
 the project with PyPI, and uploading the files.  Thus, these commands will use
-the plain version from your ``setup.py``, without adding the Subversion
-revision number or build designation string.
+the plain version from your ``setup.py``, without adding the build designation
+string.
 
 Of course, if you will be doing this a lot, you may wish to create a personal
 alias for this operation, e.g.::
 
-    python setup.py alias -u release egg_info -RDb ""
+    python setup.py alias -u release egg_info -Db ""
 
 You can then use it like this::
 
@@ -1681,9 +1633,10 @@ Of course, for this to work, your source distributions must include the C
 code generated by Pyrex, as well as your original ``.pyx`` files.  This means
 that you will probably want to include current ``.c`` files in your revision
 control system, rebuilding them whenever you check changes in for the ``.pyx``
-source files.  This will ensure that people tracking your project in CVS or
-Subversion will be able to build it even if they don't have Pyrex installed,
-and that your source releases will be similarly usable with or without Pyrex.
+source files.  This will ensure that people tracking your project in a revision
+control system will be able to build it even if they don't have Pyrex
+installed, and that your source releases will be similarly usable with or
+without Pyrex.
 
 
 -----------------
@@ -1710,8 +1663,7 @@ the command line supplies its expansion.  For example, this command defines
 a sitewide alias called "daily", that sets various ``egg_info`` tagging
 options::
 
-    setup.py alias --global-config daily egg_info --tag-svn-revision \
-        --tag-build=development
+    setup.py alias --global-config daily egg_info --tag-build=development
 
 Once the alias is defined, it can then be used with other setup commands,
 e.g.::
@@ -1721,7 +1673,7 @@ e.g.::
     setup.py daily sdist bdist_egg  # generate both
 
 The above commands are interpreted as if the word ``daily`` were replaced with
-``egg_info --tag-svn-revision --tag-build=development``.
+``egg_info --tag-build=development``.
 
 Note that setuptools will expand each alias *at most once* in a given command
 line.  This serves two purposes.  First, if you accidentally create an alias
@@ -2008,27 +1960,6 @@ added in the following order:
     it on the command line using ``-b ""`` or ``--tag-build=""`` as an argument
     to the ``egg_info`` command.
 
-``--tag-svn-revision, -r``
-    If the current directory is a Subversion checkout (i.e. has a ``.svn``
-    subdirectory, this appends a string of the form "-rNNNN" to the project's
-    version string, where NNNN is the revision number of the most recent
-    modification to the current directory, as obtained from the ``svn info``
-    command.
-
-    If the current directory is not a Subversion checkout, the command will
-    look for a ``PKG-INFO`` file instead, and try to find the revision number
-    from that, by looking for a "-rNNNN" string at the end of the version
-    number.  (This is so that building a package from a source distribution of
-    a Subversion snapshot will produce a binary with the correct version
-    number.)
-
-    If there is no ``PKG-INFO`` file, or the version number contained therein
-    does not end with ``-r`` and a number, then ``-r0`` is used.
-
-``--no-svn-revision, -R``
-    Don't include the Subversion revision in the version number.  This option
-    is included so you can override a default setting put in ``setup.cfg``.
-
 ``--tag-date, -d``
     Add a date stamp of the form "-YYYYMMDD" (e.g. "-20050528") to the
     project's version number.
@@ -2310,7 +2241,7 @@ available:
 
         setup(
             # ...
-            test_suite = "my_package.tests.test_all"
+            test_suite="my_package.tests.test_all"
         )
 
     If you did not set a ``test_suite`` in your ``setup()`` call, and do not
@@ -2322,116 +2253,230 @@ available:
 ``upload`` - Upload source and/or egg distributions to PyPI
 ===========================================================
 
-PyPI now supports uploading project files for redistribution; uploaded files
-are easily found by EasyInstall, even if you don't have download links on your
-project's home page.
+The ``upload`` command is implemented and `documented
+<https://docs.python.org/3.1/distutils/uploading.html>`_
+in distutils.
 
-Although Python 2.5 will support uploading all types of distributions to PyPI,
-setuptools only supports source distributions and eggs.  (This is partly
-because PyPI's upload support is currently broken for various other file
-types.)  To upload files, you must include the ``upload`` command *after* the
-``sdist`` or ``bdist_egg`` commands on the setup command line.  For example::
+Setuptools augments the ``upload`` command with support
+for `keyring <https://pypi.python.org/pypi/keyring>`_,
+allowing the password to be stored in a secure
+location and not in plaintext in the .pypirc file. To use
+keyring, first install keyring and set the password for
+the relevant repository, e.g.::
 
-    setup.py bdist_egg upload         # create an egg and upload it
-    setup.py sdist upload             # create a source distro and upload it
-    setup.py sdist bdist_egg upload   # create and upload both
+    python -m keyring set <repository> <username>
+    Password for '<username>' in '<repository>': ********
 
-Note that to upload files for a project, the corresponding version must already
-be registered with PyPI, using the distutils ``register`` command.  It's
-usually a good idea to include the ``register`` command at the start of the
-command line, so that any registration problems can be found and fixed before
-building and uploading the distributions, e.g.::
+Then, in .pypirc, set the repository configuration as normal,
+but omit the password. Thereafter, uploads will use the
+password from the keyring.
 
-    setup.py register sdist bdist_egg upload
+New in 20.1: Added keyring support.
 
-This will update PyPI's listing for your project's current version.
 
-Note, by the way, that the metadata in your ``setup()`` call determines what
-will be listed in PyPI for your package.  Try to fill out as much of it as
-possible, as it will save you a lot of trouble manually adding and updating
-your PyPI listings.  Just put it in ``setup.py`` and use the ``register``
-command to keep PyPI up to date.
+-----------------------------------------
+Configuring setup() using setup.cfg files
+-----------------------------------------
 
-The ``upload`` command has a few options worth noting:
+``Setuptools`` allows using configuration files (usually `setup.cfg`)
+to define package’s metadata and other options which are normally supplied
+to ``setup()`` function.
 
-``--sign, -s``
-    Sign each uploaded file using GPG (GNU Privacy Guard).  The ``gpg`` program
-    must be available for execution on the system ``PATH``.
+This approach not only allows automation scenarios, but also reduces
+boilerplate code in some cases.
 
-``--identity=NAME, -i NAME``
-    Specify the identity or key name for GPG to use when signing.  The value of
-    this option will be passed through the ``--local-user`` option of the
-    ``gpg`` program.
+.. note::
+    Implementation presents limited compatibility with distutils2-like
+    ``setup.cfg`` sections (used by ``pbr`` and ``d2to1`` packages).
 
-``--show-response``
-    Display the full response text from server; this is useful for debugging
-    PyPI problems.
+    Namely: only metadata related keys from ``metadata`` section are supported
+    (except for ``description-file``); keys from ``files``, ``entry_points``
+    and ``backwards_compat`` are not supported.
 
-``--repository=URL, -r URL``
-    The URL of the repository to upload to.  Defaults to
-    https://pypi.python.org/pypi (i.e., the main PyPI installation).
-
-.. _upload_docs:
-
-``upload_docs`` - Upload package documentation to PyPI
-======================================================
-
-PyPI now supports uploading project documentation to the dedicated URL
-https://pythonhosted.org/<project>/.
-
-The ``upload_docs`` command will create the necessary zip file out of a
-documentation directory and will post to the repository.
-
-Note that to upload the documentation of a project, the corresponding version
-must already be registered with PyPI, using the distutils ``register``
-command -- just like the ``upload`` command.
-
-Assuming there is an ``Example`` project with documentation in the
-subdirectory ``docs``, e.g.::
-
-  Example/
-  |-- example.py
-  |-- setup.cfg
-  |-- setup.py
-  |-- docs
-  |   |-- build
-  |   |   `-- html
-  |   |   |   |-- index.html
-  |   |   |   `-- tips_tricks.html
-  |   |-- conf.py
-  |   |-- index.txt
-  |   `-- tips_tricks.txt
-
-You can simply pass the documentation directory path to the ``upload_docs``
-command::
-
-    python setup.py upload_docs --upload-dir=docs/build/html
-
-If no ``--upload-dir`` is given, ``upload_docs`` will attempt to run the
-``build_sphinx`` command to generate uploadable documentation.
-For the command to become available, `Sphinx <http://sphinx.pocoo.org/>`_
-must be installed in the same environment as distribute.
-
-As with other ``setuptools``-based commands, you can define useful
-defaults in the ``setup.cfg`` of your Python project, e.g.:
 
 .. code-block:: ini
 
-    [upload_docs]
-    upload-dir = docs/build/html
+    [metadata]
+    name = my_package
+    version = attr: src.VERSION
+    description = My package description
+    long_description = file: README.rst
+    keywords = one, two
+    license = BSD 3-Clause License
 
-The ``upload_docs`` command has the following options:
+    [metadata.classifiers]
+    Framework :: Django
+    Programming Language :: Python :: 3.5
 
-``--upload-dir``
-    The directory to be uploaded to the repository.
+    [options]
+    zip_safe = False
+    include_package_data = True
+    packages = find:
+    scripts =
+      bin/first.py
+      bin/second.py
 
-``--show-response``
-    Display the full response text from server; this is useful for debugging
-    PyPI problems.
+    [options.package_data]
+    * = *.txt, *.rst
+    hello = *.msg
 
-``--repository=URL, -r URL``
-    The URL of the repository to upload to.  Defaults to
-    https://pypi.python.org/pypi (i.e., the main PyPI installation).
+    [options.extras_require]
+    pdf = ReportLab>=1.2; RXP
+    rest = docutils>=0.3; pack ==1.1, ==1.3
+
+    [options.packages.find]
+    exclude =
+        src.subpackage1
+        src.subpackage2
+
+
+Metadata and options could be set in sections with the same names.
+
+* Keys are the same as keyword arguments one provides to ``setup()`` function.
+
+* Complex values could be placed comma-separated or one per line
+  in *dangling* sections. The following are the same:
+
+  .. code-block:: ini
+
+      [metadata]
+      keywords = one, two
+
+      [metadata]
+      keywords =
+        one
+        two
+
+* In some cases complex values could be provided in subsections for clarity.
+
+* Some keys allow ``file:``, ``attr:`` and ``find:`` directives to cover
+  common usecases.
+
+* Unknown keys are ignored.
+
+
+Specifying values
+=================
+
+Some values are treated as simple strings, some allow more logic.
+
+Type names used below:
+
+* ``str`` - simple string
+* ``list-comma`` - dangling list or comma-separated values string
+* ``list-semi`` - dangling list or semicolon-separated values string
+* ``bool`` -  ``True`` is 1, yes, true
+* ``dict`` - list-comma where keys from values are separated by =
+* ``section`` - values could be read from a dedicated (sub)section
+
+
+Special directives:
+
+* ``attr:`` - value could be read from module attribute
+* ``file:`` - value could be read from a file
+
+
+.. note::
+    ``file:`` directive is sandboxed and won't reach anything outside
+    directory with ``setup.py``.
+
+
+Metadata
+--------
+
+.. note::
+    Aliases given below are supported for compatibility reasons,
+    but not advised.
+
+=================  =================  =====
+Key                Aliases            Accepted value type
+=================  =================  =====
+name                                  str
+version                               attr:, str
+url                home-page          str
+download_url       download-url       str
+author                                str
+author_email       author-email       str
+maintainer                            str
+maintainer_email   maintainer-email   str
+classifiers        classifier         file:, section, list-comma
+license                               file:, str
+description        summary            file:, str
+long_description   long-description   file:, str
+keywords                              list-comma
+platforms          platform           list-comma
+provides                              list-comma
+requires                              list-comma
+obsoletes                             list-comma
+=================  =================  =====
+
+.. note::
+
+    **version** - ``attr:`` supports callables; supports iterables;
+    unsupported types are casted using ``str()``.
+
+
+Options
+-------
+
+=======================  =====
+Key                      Accepted value type
+=======================  =====
+zip_safe                 bool
+setup_requires           list-semi
+install_requires         list-semi
+extras_require           section
+entry_points             file:, section
+use_2to3                 bool
+use_2to3_fixers          list-comma
+use_2to3_exclude_fixers  list-comma
+convert_2to3_doctests    list-comma
+scripts                  list-comma
+eager_resources          list-comma
+dependency_links         list-comma
+tests_require            list-semi
+include_package_data     bool
+packages                 find:, list-comma
+package_dir              dict
+package_data             section
+exclude_package_data     section
+namespace_packages       list-comma
+=======================  =====
+
+.. note::
+
+    **packages** - ``find:`` directive can be further configured
+    in a dedicated subsection `options.packages.find`. This subsection
+    accepts the same keys as `setuptools.find` function:
+    `where`, `include`, `exclude`.
+
+
+Configuration API
+=================
+
+Some automation tools may wish to access data from a configuration file.
+
+``Setuptools`` exposes ``read_configuration()`` function allowing
+parsing ``metadata`` and ``options`` sections into a dictionary.
+
+
+.. code-block:: python
+
+    from setuptools.config import read_configuration
+
+    conf_dict = read_configuration('/home/user/dev/package/setup.cfg')
+
+
+By default ``read_configuration()`` will read only file provided
+in the first argument. To include values from other configuration files
+which could be in various places set `find_others` function argument
+to ``True``.
+
+If you have only a configuration file but not the whole package you can still
+try to get data out of it with the help of `ignore_option_errors` function
+argument. When it is set to ``True`` all options with errors possibly produced
+by directives, such as ``attr:`` and others will be silently ignored.
+As a consequence the resulting dictionary will include no such options.
 
 
 --------------------------------
@@ -2463,7 +2508,7 @@ project's setup script::
 
     setup(
         # ...
-        entry_points = {
+        entry_points={
             "distutils.commands": [
                 "foo = mypackage.some_module:foo",
             ],
@@ -2495,7 +2540,7 @@ distutils extension project's setup script::
 
     setup(
         # ...
-        entry_points = {
+        entry_points={
             "distutils.commands": [
                 "foo = mypackage.some_module:foo",
             ],
@@ -2557,7 +2602,7 @@ project that uses the argument::
 
     setup(
         # ...
-        entry_points = {
+        entry_points={
             "distutils.setup_keywords": [
                 "foo_bar = setuptools.dist:assert_string_list",
             ],
@@ -2576,7 +2621,7 @@ a file.  Here's what the writer utility looks like::
         argname = os.path.splitext(basename)[0]
         value = getattr(cmd.distribution, argname, None)
         if value is not None:
-            value = '\n'.join(value)+'\n'
+            value = '\n'.join(value) + '\n'
         cmd.write_or_delete_file(argname, filename, value)
 
 As you can see, ``egg_info.writers`` entry points must be a function taking
@@ -2592,15 +2637,21 @@ the ``cmd`` object's ``write_file()``, ``delete_file()``, and
 those methods' docstrings for more details.
 
 
-Adding Support for Other Revision Control Systems
+Adding Support for Revision Control Systems
 -------------------------------------------------
 
-If you would like to create a plugin for ``setuptools`` to find files in other
-source control systems besides CVS and Subversion, you can do so by adding an
-entry point to the ``setuptools.file_finders`` group.  The entry point should
-be a function accepting a single directory name, and should yield
-all the filenames within that directory (and any subdirectories thereof) that
-are under revision control.
+If the files you want to include in the source distribution are tracked using
+Git, Mercurial or SVN, you can use the following packages to achieve that:
+
+- Git and Mercurial: `setuptools_scm <https://pypi.python.org/pypi/setuptools_scm>`_
+- SVN: `setuptools_svn <https://pypi.python.org/pypi/setuptools_svn>`_
+
+If you would like to create a plugin for ``setuptools`` to find files tracked
+by another revision control system, you can do so by adding an entry point to
+the ``setuptools.file_finders`` group.  The entry point should be a function
+accepting a single directory name, and should yield all the filenames within
+that directory (and any subdirectories thereof) that are under revision
+control.
 
 For example, if you were going to create a plugin for a revision control system
 called "foobar", you would write a function something like this:
@@ -2612,9 +2663,9 @@ called "foobar", you would write a function something like this:
 
 And you would register it in a setup script using something like this::
 
-    entry_points = {
+    entry_points={
         "setuptools.file_finders": [
-            "foobar = my_foobar_module:find_files_for_foobar"
+            "foobar = my_foobar_module:find_files_for_foobar",
         ]
     }
 
@@ -2652,9 +2703,7 @@ Subclassing ``Command``
 -----------------------
 
 Sorry, this section isn't written yet, and neither is a lot of what's below
-this point, except for the change log.  You might want to `subscribe to changes
-in this page <setuptools?action=subscribe>`_ to see when new documentation is
-added or updated.
+this point.
 
 XXX
 
@@ -2695,5 +2744,4 @@ confirmed via the list are actual bugs, and which you have reduced to a minimal
 set of steps to reproduce.
 
 .. _distutils-sig mailing list: http://mail.python.org/pipermail/distutils-sig/
-.. _setuptools bug tracker: https://bitbucket.org/pypa/setuptools/
-
+.. _setuptools bug tracker: https://github.com/pypa/setuptools/

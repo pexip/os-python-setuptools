@@ -1,26 +1,38 @@
-"""Package Index Tests
-"""
+from __future__ import absolute_import
+
 import sys
 import os
-import unittest
-import pkg_resources
-from setuptools.compat import urllib2, httplib, HTTPError, unicode, pathname2url
 import distutils.errors
+
+from setuptools.extern import six
+from setuptools.extern.six.moves import urllib, http_client
+
+import pkg_resources
 import setuptools.package_index
 from setuptools.tests.server import IndexServer
+from .textwrap import DALS
 
-class TestPackageIndex(unittest.TestCase):
+
+class TestPackageIndex:
+    def test_regex(self):
+        hash_url = 'http://other_url?:action=show_md5&amp;'
+        hash_url += 'digest=0123456789abcdef0123456789abcdef'
+        doc = """
+            <a href="http://some_url">Name</a>
+            (<a title="MD5 hash"
+            href="{hash_url}">md5</a>)
+        """.lstrip().format(**locals())
+        assert setuptools.package_index.PYPI_MD5.match(doc)
 
     def test_bad_url_bad_port(self):
         index = setuptools.package_index.PackageIndex()
         url = 'http://127.0.0.1:0/nonesuch/test_package_index'
         try:
             v = index.open_url(url)
-        except Exception:
-            v = sys.exc_info()[1]
-            self.assertTrue(url in str(v))
+        except Exception as v:
+            assert url in str(v)
         else:
-            self.assertTrue(isinstance(v, HTTPError))
+            assert isinstance(v, urllib.error.HTTPError)
 
     def test_bad_url_typo(self):
         # issue 16
@@ -33,11 +45,10 @@ class TestPackageIndex(unittest.TestCase):
         url = 'url:%20https://svn.plone.org/svn/collective/inquant.contentmirror.plone/trunk'
         try:
             v = index.open_url(url)
-        except Exception:
-            v = sys.exc_info()[1]
-            self.assertTrue(url in str(v))
+        except Exception as v:
+            assert url in str(v)
         else:
-            self.assertTrue(isinstance(v, HTTPError))
+            assert isinstance(v, urllib.error.HTTPError)
 
     def test_bad_url_bad_status_line(self):
         index = setuptools.package_index.PackageIndex(
@@ -45,15 +56,14 @@ class TestPackageIndex(unittest.TestCase):
         )
 
         def _urlopen(*args):
-            raise httplib.BadStatusLine('line')
+            raise http_client.BadStatusLine('line')
 
         index.opener = _urlopen
         url = 'http://example.com'
         try:
             v = index.open_url(url)
-        except Exception:
-            v = sys.exc_info()[1]
-            self.assertTrue('line' in str(v))
+        except Exception as v:
+            assert 'line' in str(v)
         else:
             raise AssertionError('Should have raise here!')
 
@@ -69,9 +79,8 @@ class TestPackageIndex(unittest.TestCase):
         url = 'http://http://svn.pythonpaste.org/Paste/wphp/trunk'
         try:
             index.open_url(url)
-        except distutils.errors.DistutilsError:
-            error = sys.exc_info()[1]
-            msg = unicode(error)
+        except distutils.errors.DistutilsError as error:
+            msg = six.text_type(error)
             assert 'nonnumeric port' in msg or 'getaddrinfo failed' in msg or 'Name or service not known' in msg
             return
         raise RuntimeError("Did not raise")
@@ -94,7 +103,7 @@ class TestPackageIndex(unittest.TestCase):
             hosts=('www.example.com',)
         )
         url = 'file:///tmp/test_package_index'
-        self.assertTrue(index.url_ok(url, True))
+        assert index.url_ok(url, True)
 
     def test_links_priority(self):
         """
@@ -127,21 +136,30 @@ class TestPackageIndex(unittest.TestCase):
         server.stop()
 
         # the distribution has been found
-        self.assertTrue('foobar' in pi)
+        assert 'foobar' in pi
         # we have only one link, because links are compared without md5
-        self.assertTrue(len(pi['foobar'])==1)
+        assert len(pi['foobar']) == 1
         # the link should be from the index
-        self.assertTrue('correct_md5' in pi['foobar'][0].location)
+        assert 'correct_md5' in pi['foobar'][0].location
 
     def test_parse_bdist_wininst(self):
-        self.assertEqual(setuptools.package_index.parse_bdist_wininst(
-            'reportlab-2.5.win32-py2.4.exe'), ('reportlab-2.5', '2.4', 'win32'))
-        self.assertEqual(setuptools.package_index.parse_bdist_wininst(
-            'reportlab-2.5.win32.exe'), ('reportlab-2.5', None, 'win32'))
-        self.assertEqual(setuptools.package_index.parse_bdist_wininst(
-            'reportlab-2.5.win-amd64-py2.7.exe'), ('reportlab-2.5', '2.7', 'win-amd64'))
-        self.assertEqual(setuptools.package_index.parse_bdist_wininst(
-            'reportlab-2.5.win-amd64.exe'), ('reportlab-2.5', None, 'win-amd64'))
+        parse = setuptools.package_index.parse_bdist_wininst
+
+        actual = parse('reportlab-2.5.win32-py2.4.exe')
+        expected = 'reportlab-2.5', '2.4', 'win32'
+        assert actual == expected
+
+        actual = parse('reportlab-2.5.win32.exe')
+        expected = 'reportlab-2.5', None, 'win32'
+        assert actual == expected
+
+        actual = parse('reportlab-2.5.win-amd64-py2.7.exe')
+        expected = 'reportlab-2.5', '2.7', 'win-amd64'
+        assert actual == expected
+
+        actual = parse('reportlab-2.5.win-amd64.exe')
+        expected = 'reportlab-2.5', None, 'win-amd64'
+        assert actual == expected
 
     def test__vcs_split_rev_from_url(self):
         """
@@ -149,55 +167,67 @@ class TestPackageIndex(unittest.TestCase):
         """
         vsrfu = setuptools.package_index.PackageIndex._vcs_split_rev_from_url
         url, rev = vsrfu('https://example.com/bar@2995')
-        self.assertEqual(url, 'https://example.com/bar')
-        self.assertEqual(rev, '2995')
+        assert url == 'https://example.com/bar'
+        assert rev == '2995'
 
-    def test_local_index(self):
+    def test_local_index(self, tmpdir):
         """
         local_open should be able to read an index from the file system.
         """
-        f = open('index.html', 'w')
-        f.write('<div>content</div>')
-        f.close()
-        try:
-            url = 'file:' + pathname2url(os.getcwd()) + '/'
-            res = setuptools.package_index.local_open(url)
-        finally:
-            os.remove('index.html')
+        index_file = tmpdir / 'index.html'
+        with index_file.open('w') as f:
+            f.write('<div>content</div>')
+        url = 'file:' + urllib.request.pathname2url(str(tmpdir)) + '/'
+        res = setuptools.package_index.local_open(url)
         assert 'content' in res.read()
 
 
-class TestContentCheckers(unittest.TestCase):
-
+class TestContentCheckers:
     def test_md5(self):
         checker = setuptools.package_index.HashChecker.from_url(
             'http://foo/bar#md5=f12895fdffbd45007040d2e44df98478')
         checker.feed('You should probably not be using MD5'.encode('ascii'))
-        self.assertEqual(checker.hash.hexdigest(),
-            'f12895fdffbd45007040d2e44df98478')
-        self.assertTrue(checker.is_valid())
+        assert checker.hash.hexdigest() == 'f12895fdffbd45007040d2e44df98478'
+        assert checker.is_valid()
 
     def test_other_fragment(self):
         "Content checks should succeed silently if no hash is present"
         checker = setuptools.package_index.HashChecker.from_url(
             'http://foo/bar#something%20completely%20different')
         checker.feed('anything'.encode('ascii'))
-        self.assertTrue(checker.is_valid())
+        assert checker.is_valid()
 
     def test_blank_md5(self):
         "Content checks should succeed if a hash is empty"
         checker = setuptools.package_index.HashChecker.from_url(
             'http://foo/bar#md5=')
         checker.feed('anything'.encode('ascii'))
-        self.assertTrue(checker.is_valid())
+        assert checker.is_valid()
 
     def test_get_hash_name_md5(self):
         checker = setuptools.package_index.HashChecker.from_url(
             'http://foo/bar#md5=f12895fdffbd45007040d2e44df98478')
-        self.assertEqual(checker.hash_name, 'md5')
+        assert checker.hash_name == 'md5'
 
     def test_report(self):
         checker = setuptools.package_index.HashChecker.from_url(
             'http://foo/bar#md5=f12895fdffbd45007040d2e44df98478')
         rep = checker.report(lambda x: x, 'My message about %s')
-        self.assertEqual(rep, 'My message about md5')
+        assert rep == 'My message about md5'
+
+
+class TestPyPIConfig:
+    def test_percent_in_password(self, tmpdir, monkeypatch):
+        monkeypatch.setitem(os.environ, 'HOME', str(tmpdir))
+        pypirc = tmpdir / '.pypirc'
+        with pypirc.open('w') as strm:
+            strm.write(DALS("""
+                [pypi]
+                repository=https://pypi.python.org
+                username=jaraco
+                password=pity%
+            """))
+        cfg = setuptools.package_index.PyPIConfig()
+        cred = cfg.creds_by_repository['https://pypi.python.org']
+        assert cred.username == 'jaraco'
+        assert cred.password == 'pity%'
