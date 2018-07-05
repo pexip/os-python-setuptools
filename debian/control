@@ -14,7 +14,7 @@ Build-Depends:
 Build-Conflicts: python-setuptools, python3-setuptools, pypy-setuptools
 Standards-Version: 3.9.8
 Homepage: https://pypi.python.org/pypi/setuptools
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie-backports
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
 
 Package: python-pkg-resources
 Suggests: python-setuptools
