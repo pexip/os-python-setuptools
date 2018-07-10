@@ -4,12 +4,6 @@ python-setuptools (33.1.1-1~bpo8+1pexip1) pexip; urgency=low
 
  -- John-Mark Bell <jmb@pexip.com>  Fri, 21 Jul 2017 19:27:13 +0100
 
-python-setuptools (33.1.1-1~bpo8+1) jessie-backports; urgency=medium
-
-  * Rebuild for jessie-backports.
-
- -- Andreas Tille <tille@debian.org>  Tue, 11 Apr 2017 17:00:47 +0200
-
 python-setuptools (33.1.1-1) unstable; urgency=medium
 
   * New upstream version.
@@ -65,19 +59,6 @@ python-setuptools (25.2.0-1) unstable; urgency=medium
   * New upstream version.
 
  -- Matthias Klose <doko@debian.org>  Mon, 15 Aug 2016 23:17:15 +0200
-
-python-setuptools (20.10.1-1.1~bpo8+1) jessie-backports; urgency=medium
-
-  * Rebuild for jessie-backports.
-
- -- Ondřej Nový <onovy@debian.org>  Sun, 26 Jun 2016 05:46:06 +0200
-
-python-setuptools (20.10.1-1.1) unstable; urgency=medium
-
-  * Non-maintainer upload.
-  * Sort libs in native_libs. (Closes: #825857)
-
- -- Anton Gladky <gladk@debian.org>  Thu, 09 Jun 2016 22:35:35 +0200
 
 python-setuptools (20.10.1-1) unstable; urgency=medium
 
