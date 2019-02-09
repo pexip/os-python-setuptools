@@ -1,9 +1,9 @@
 install-layout.diff
 multiarch-extname.diff
-fix-python3.5.diff
 no-sphinx-rst.linker.diff
 fix-changes-link.diff
-multiple-entrypoints.diff
+#multiple-entrypoints.diff
 no-SOURCES.txt-in-egg-ingo.diff
 reproducible.diff
 sorted-requires.diff
+PKG-INFO-output-reproducible.diff
