@@ -4,7 +4,7 @@ Index: b/setup.py
 ===================================================================
 --- a/setup.py
 +++ b/setup.py
-@@ -41,8 +41,17 @@ def _gen_console_scripts():
+@@ -45,8 +45,17 @@ def _gen_console_scripts():
      )
      if any(os.environ.get(var) not in (None, "", "0") for var in var_names):
          return

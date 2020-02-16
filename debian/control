@@ -12,7 +12,7 @@ Build-Depends:
  python3-sphinx,
  python3-wheel
 Build-Conflicts: python-setuptools, python3-setuptools, pypy-setuptools
-Standards-Version: 3.9.8
+Standards-Version: 4.3.0
 Homepage: https://pypi.python.org/pypi/setuptools
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
@@ -70,6 +70,7 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  python3-pkg-resources (= ${binary:Version}),
+ python3-distutils,
  ${misc:Depends},
  ${python3:Depends}
 Suggests: python-setuptools-doc

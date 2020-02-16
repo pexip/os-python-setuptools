@@ -1,3 +1,128 @@
+python-setuptools (40.8.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 09 Feb 2019 14:36:03 +0100
+
+python-setuptools (40.7.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 02 Feb 2019 15:50:37 +0100
+
+python-setuptools (40.6.3-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Bump standards version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 18 Jan 2019 11:49:41 +0100
+
+python-setuptools (40.6.2-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 04 Dec 2018 11:42:29 +0100
+
+python-setuptools (40.5.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 06 Nov 2018 09:30:02 +0100
+
+python-setuptools (40.4.3-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 18 Oct 2018 12:11:52 +0200
+
+python-setuptools (40.2.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 31 Aug 2018 12:10:30 +0200
+
+python-setuptools (39.2.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 16 Jun 2018 04:43:17 +0200
+
+python-setuptools (39.1.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 12 May 2018 15:44:00 -0400
+
+python-setuptools (39.0.1-2) unstable; urgency=medium
+
+  * Make the PKG-INFO output reproducible (Chris Lamb). Closes: #894215.
+  * Stop shipping the easy_install scripts.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 02 Apr 2018 11:46:01 +0200
+
+python-setuptools (39.0.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 25 Mar 2018 13:29:55 +0800
+
+python-setuptools (38.5.2-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 09 Mar 2018 15:17:32 +0700
+
+python-setuptools (38.4.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 31 Jan 2018 11:46:56 +0100
+
+python-setuptools (38.2.4-2) unstable; urgency=medium
+
+  * python3-setuptools: Depend on python3-distutils.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 14 Dec 2017 02:06:50 +0100
+
+python-setuptools (38.2.4-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 04 Dec 2017 19:55:21 +0100
+
+python-setuptools (36.7.1-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 13 Nov 2017 12:20:17 +0100
+
+python-setuptools (36.6.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Bump standards version.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 01 Nov 2017 05:45:52 +0100
+
+python-setuptools (36.2.7-2) unstable; urgency=medium
+
+  * Add d/patches/fix-invalid-escapes.diff to prevent warnings from appearing
+    on stderr and causing autopkgtests to fail (Michael Hudson-Doyle).
+
+ -- Matthias Klose <doko@debian.org>  Sat, 05 Aug 2017 11:16:52 -0400
+
+python-setuptools (36.2.7-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 04 Aug 2017 08:11:49 -0400
+
+python-setuptools (36.0.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Generate entry points for 3.6.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 20 Jun 2017 15:12:53 +0200
+
 python-setuptools (33.1.1-1pexip2) pexip; urgency=medium
 
   * Python3

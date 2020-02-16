@@ -2,7 +2,7 @@ Index: b/setuptools/command/easy_install.py
 ===================================================================
 --- a/setuptools/command/easy_install.py
 +++ b/setuptools/command/easy_install.py
-@@ -207,6 +207,7 @@ class easy_install(Command):
+@@ -208,6 +208,7 @@ class easy_install(Command):
          # enable custom installation, known values: deb
          self.install_layout = None
          self.force_installation_into_system_dir = None
@@ -10,7 +10,7 @@ Index: b/setuptools/command/easy_install.py
  
          # Always read easy_install options, even if we are subclassed, or have
          # an independent instance created.  This ensures that defaults will
-@@ -281,6 +282,10 @@ class easy_install(Command):
+@@ -282,6 +283,10 @@ class easy_install(Command):
                  raise DistutilsOptionError("unknown value for --install-layout")
              self.install_layout = self.install_layout.lower()
  
