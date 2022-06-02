@@ -1,3 +1,9 @@
+python-setuptools (44.1.1-1pexip1) pexip; urgency=medium
+
+  * Initial bullseye build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 02 Jun 2022 14:42:51 +0100
+
 python-setuptools (44.1.1-1) unstable; urgency=medium
 
   * New upstream version.
